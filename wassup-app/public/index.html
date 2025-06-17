@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wassup!</title>
+</head>
+<body>
+  <h1>Profil</h1>
+  <form id="profileForm" enctype="multipart/form-data">
+    <label>Bio: <input type="text" name="bio" /></label><br />
+    <label>Citation: <input type="text" name="citation" /></label><br />
+    <label>Photo de profil: <input type="file" name="photo" /></label><br />
+    <label>Rendre le profil public?
+      <input type="checkbox" name="isPublic" />
+    </label><br />
+    <button type="submit">Sauvegarder</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('profileForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('http://localhost:3000/api/save-profile', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (data.success) alert('Profil sauvegardé !');
+      } catch (err) {
+        console.error(err);
+        alert('Erreur lors de la sauvegarde');
+      }
+    });
+  </script>
+</body>
+</html>
